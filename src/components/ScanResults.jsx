@@ -1,8 +1,43 @@
-import React from "react"
-import { IoChevronDown } from "react-icons/io5"
+import React, { useState } from "react"
+import { IoChevronDown, IoChevronUp } from "react-icons/io5"
 import { Link } from "react-router-dom"
 
 export default function ScanResults() {
+  // Currency data
+  const currencies = [
+    {
+      icon: "/images/btc.png",
+      name: "BTC",
+      value: "0.48366",
+    },
+    {
+      icon: "/images/usd.png",
+      name: "BTC",
+      value: "0.48366",
+    },
+    {
+      icon: "/images/btc.png",
+      name: "BTC",
+      value: "0.48366",
+    },
+  ]
+
+  const [selectedCurrency, setSelectedCurrency] = useState(currencies[0])
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+
+  const handleCurrencySelect = (currency) => {
+    setSelectedCurrency(currency)
+    setDropdownOpen(false)
+  }
+
+  const [selectedCurrency2, setSelectedCurrency2] = useState(currencies[0])
+  const [dropdownOpen2, setDropdownOpen2] = useState(false)
+
+  const handleCurrencySelect2 = (currency) => {
+    setSelectedCurrency2(currency)
+    setDropdownOpen2(false)
+  }
+
   return (
     <div className="space-y-[3vw]">
       <div className="px-[1vw] py-[1.5vw] bg-[#FFFFFF0F] rounded-2xl space-y-[1.5vw]  ">
@@ -31,7 +66,11 @@ export default function ScanResults() {
               <p className="text-[#666666] text-[0.9vw] text-nowrap font-bold">
                 Buy / Sell Tax
               </p>
-              <p className="font-bold text-[1.3vw]">0%</p>
+              <input
+                type="text"
+                placeholder="0%"
+                className="bg-transparent outline-none w-[5vw] placeholder:font-bold placeholder:text-white"
+              />
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -42,7 +81,11 @@ export default function ScanResults() {
               <p className="text-[#666666] text-[0.9vw] text-nowrap font-bold">
                 Transfer Tax
               </p>
-              <p className="font-bold text-[1.3vw]">0%</p>
+              <input
+                type="text"
+                placeholder="0%"
+                className="bg-transparent outline-none w-[5vw] placeholder:font-bold placeholder:text-white"
+              />
             </div>
           </div>
         </div>
@@ -92,16 +135,48 @@ export default function ScanResults() {
 
         <div className="">
           <p className="mb-1">From</p>
-          <div className="bg-[#FFFFFF0D] px-[2vw] py-[0.5vw] rounded-xl flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <img src="/images/btc.png" alt="" />
-
-              <p className="flex items-center gap-1 font-bold">
-                BTC
-                <IoChevronDown className="text-sm cursor-pointer" />
-              </p>
+          <div className="relative">
+            {/* Currency Display */}
+            <div
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="bg-[#FFFFFF0D] transition-all duration-150 cursor-pointer px-[2vw] py-[0.5vw] rounded-xl flex items-center justify-between"
+            >
+              <div className="flex items-center gap-2">
+                <img src={selectedCurrency.icon} alt={selectedCurrency.name} />
+                <p className="flex items-center gap-1 font-bold">
+                  {selectedCurrency.name}
+                  {dropdownOpen ? (
+                    <IoChevronUp className="text-sm" />
+                  ) : (
+                    <IoChevronDown className="text-sm" />
+                  )}
+                </p>
+              </div>
+              <p className="font-bold">{selectedCurrency.value}</p>
             </div>
-            <p className="font-bold">0.48366</p>
+
+            {/* Dropdown Menu */}
+            {dropdownOpen && (
+              <div className="absolute top-full mt-2 bg-gray-800 shadow-lg rounded-xl p-2 w-full z-10">
+                {currencies.map((currency) => (
+                  <div
+                    key={currency.name}
+                    onClick={() => handleCurrencySelect(currency)}
+                    className="flex items-center justify-between cursor-pointer p-2 hover:bg-[#FFFFFF0D] rounded"
+                  >
+                    <div className="flex items-center gap-2">
+                      <img
+                        src={currency.icon}
+                        alt={currency.name}
+                        className="w-5 h-5"
+                      />
+                      <p className="font-bold">{currency.name}</p>
+                    </div>
+                    <p>{currency.value}</p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
         <div className="">
@@ -111,16 +186,51 @@ export default function ScanResults() {
               <img src="/images/converter.png" alt="" />
             </button>
           </div>
-          <div className="bg-[#FFFFFF0D] px-[2vw] py-[0.5vw] rounded-xl flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <img src="/images/usd.png" alt="" />
-
-              <p className="flex items-center gap-1 font-bold">
-                USD
-                <IoChevronDown className="text-sm cursor-pointer" />
-              </p>
+          <div className="relative">
+            {/* Currency Display */}
+            <div
+              onClick={() => setDropdownOpen2(!dropdownOpen2)}
+              className="bg-[#FFFFFF0D] transition-all duration-150 cursor-pointer px-[2vw] py-[0.5vw] rounded-xl flex items-center justify-between"
+            >
+              <div className="flex items-center gap-2">
+                <img
+                  src={selectedCurrency2.icon}
+                  alt={selectedCurrency2.name}
+                />
+                <p className="flex items-center gap-1 font-bold">
+                  {selectedCurrency2.name}
+                  {dropdownOpen2 ? (
+                    <IoChevronUp className="text-sm" />
+                  ) : (
+                    <IoChevronDown className="text-sm" />
+                  )}
+                </p>
+              </div>
+              <p className="font-bold">{selectedCurrency2.value}</p>
             </div>
-            <p className="font-bold">0.48366</p>
+
+            {/* Dropdown Menu */}
+            {dropdownOpen2 && (
+              <div className="absolute top-full mt-2 bg-gray-800 shadow-lg rounded-xl p-2 w-full z-10">
+                {currencies.map((currency) => (
+                  <div
+                    key={currency.name}
+                    onClick={() => handleCurrencySelect2(currency)}
+                    className="flex items-center justify-between cursor-pointer p-2 hover:bg-[#FFFFFF0D] rounded"
+                  >
+                    <div className="flex items-center gap-2">
+                      <img
+                        src={currency.icon}
+                        alt={currency.name}
+                        className="w-5 h-5"
+                      />
+                      <p className="font-bold">{currency.name}</p>
+                    </div>
+                    <p>{currency.value}</p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
         <p className="">1 ETH = 2500 USD</p>

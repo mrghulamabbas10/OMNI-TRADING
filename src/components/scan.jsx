@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { IoIosArrowDown } from "react-icons/io"
 import { IoTrendingUpSharp } from "react-icons/io5"
-import GradientAreaChart from "./chart"
 
 const data = [
   {
